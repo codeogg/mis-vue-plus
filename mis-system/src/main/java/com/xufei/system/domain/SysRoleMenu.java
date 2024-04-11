@@ -1,4 +1,15 @@
 package com.xufei.system.domain;
 
-public class SysRoleMenu {
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+@TableName(value = "sys_role_menu")
+public class SysRoleMenu implements Serializable {
+
+    private Long roleId;
+    private Long menuId;
 }

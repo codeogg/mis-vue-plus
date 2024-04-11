@@ -1,4 +1,17 @@
 package com.xufei.system.domain;
 
-public class SysPost {
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.xufei.common.core.BaseEntity;
+import lombok.Data;
+
+@Data
+@TableName(value = "sys_post")
+public class SysPost extends BaseEntity {
+
+    private Long postId;
+    private String postCode;
+    private String postName;
+    private Integer postSort;
+    private String status;
+    private String remark;
 }
