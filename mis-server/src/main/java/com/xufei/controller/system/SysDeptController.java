@@ -1,4 +1,4 @@
 package com.xufei.controller.system;
 
-public class SysDeptApi {
+public class SysDeptController {
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "captcha")
 public class CaptchaProperties {
 
+    private String enabled;
     private CaptchaType type;
     private CaptchaCategory category;
     private Integer numberLength;

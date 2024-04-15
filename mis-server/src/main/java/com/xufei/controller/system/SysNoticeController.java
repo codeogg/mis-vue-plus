@@ -1,4 +1,4 @@
 package com.xufei.controller.system;
 
-public class SysDictTypeApi {
+public class SysNoticeController {
 }

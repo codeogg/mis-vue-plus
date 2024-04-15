@@ -1,3 +1,10 @@
+captcha:
+  enabled: true
+  type: CHAR
+  category: CIRCLE
+  numberLength: 1
+  charLength: 4
+
 server:
   port: 8080
   servlet:

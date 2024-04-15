@@ -1,4 +1,4 @@
 package com.xufei.controller.system;
 
-public class SysRegisterApi {
+public class SysDictDataController {
 }

@@ -1,4 +1,4 @@
 package com.xufei.controller.system;
 
-public class SysOssConfigApi {
+public class SysIndexController {
 }

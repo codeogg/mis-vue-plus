@@ -1,4 +1,4 @@
 package com.xufei.controller.system;
 
-public class SysPostApi {
+public class SysRegisterController {
 }
