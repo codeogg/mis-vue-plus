@@ -1,6 +1,8 @@
 package com.xufei.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xufei.common.core.BaseEntity;
 import lombok.Data;
@@ -14,7 +16,8 @@ import java.util.Map;
 @TableName(value = "sys_oper_log")
 public class SysOperLog implements Serializable {
 
-    private Long operId;
+    @TableId(type = IdType.AUTO)
+    private Long id;
     private String title;
     private Integer businessType;
     private String method;

@@ -8,18 +8,16 @@ import lombok.Data;
 @TableName(value = "sys_menu")
 public class SysMenu extends TreeEntity<SysMenu> {
 
-    private Long menuId;
+    private Integer menuType;
     private String menuName;
-    private Integer orderNum;
-    private String path;
-    private String component;
-    private String queryParam;
-    private String isFrame;
-    private String isCache;
-    private String menuType;
-    private String visible;
-    private String status;
     private String perms;
+    private Integer sortNum;
+    private String todoSql;
+    private String path;
     private String icon;
-    private String remark;
+    private String component;
+    private Integer status;
+    private Integer visible;
+    private Integer keepAlive;
+
 }

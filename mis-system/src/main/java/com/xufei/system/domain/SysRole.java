@@ -11,23 +11,10 @@ import lombok.Data;
 @TableName(value = "sys_role")
 public class SysRole extends BaseEntity {
 
-    private Long roleId;
     private String roleName;
-    private String roleKey;
-    private Integer roleSort;
-    private String dataScope;
-    private Boolean menuCheckStrictly;
-    private Boolean deptCheckStrictly;
-    private String status;
-
-    @TableLogic
-    private String delFlag;
-
-    private String remark;
-
-    @TableField(exist = false)
-    private Long[] menuIds;
-
-    @TableField(exist = false)
-    private Long[] deptIds;
+    private String roleCode;
+    private Integer dataScope;
+    private String dataScopeDeptIds;
+    private Integer status;
+    private Long siteId;
 }

@@ -5,12 +5,11 @@ import com.xufei.common.core.BaseEntity;
 import lombok.Data;
 
 @Data
-@TableName(value = "sys_notice")
-public class SysNotice extends BaseEntity {
+@TableName("sys_site")
+public class SysSite extends BaseEntity {
 
-    private String noticeTitle;
-    private String noticeType;
-    private String noticeContent;
+    private String siteName;
     private Integer status;
-
+    private String database;
+    private String website;
 }

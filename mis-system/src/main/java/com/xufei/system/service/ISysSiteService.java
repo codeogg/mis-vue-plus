@@ -1,4 +1,4 @@
 package com.xufei.system.service;
 
-public interface ISysPostService {
+public interface ISysSiteService {
 }

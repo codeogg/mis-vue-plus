@@ -1,6 +1,8 @@
 package com.xufei.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -10,16 +12,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-@TableName(value = "sys_logininfor")
-public class SysLogininfor implements Serializable {
+@TableName(value = "sys_login_info")
+public class SysLoginInfo implements Serializable {
 
-    private Long infoId;
+    @TableId(type = IdType.AUTO)
+    private Long id;
     private String userName;
-    private String ippaddr;
+    private String nickName;
+    private String ippAddr;
     private String loginLocation;
     private String browser;
     private String os;
-    private String status;
+    private Integer status;
     private String msg;
     private Date loginTime;
 

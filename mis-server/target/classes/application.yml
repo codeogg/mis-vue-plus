@@ -29,3 +29,46 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    db-config:
+      logic-delete-value: 2
+      logic-not-delete-value: 0
+  type-aliases-package: com.xufei.**.domain
+
+sa-token:
+  #token 名称（同时也是cookie 名称）
+  token-name: Authorization
+  #token有效期（单位：秒）默认30天：-1代表永久有效
+  timeout: 86400
+  #token最低活跃频率（单位：秒），如果token超过此时间没有访问系统就会被冻结：默认-1代表不限制：永不冻结
+  active-timeout: 1800
+  dynamic-active-timeout: true
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  is-read-header: true
+  token-prefix: "Bearer"
+  jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
+
+security:
+  # 排除路径
+  excludes:
+    # 静态资源
+    - /*.html
+    - /**/*.html
+    - /**/*.css
+    - /**/*.js
+    # 公共路径
+    - /favicon.ico
+    - /error
+    # swagger 文档配置
+    - /*/api-docs
+    - /*/api-docs/**
+    # actuator 监控配置
+    - /actuator
+    - /actuator/**
+
+xss:
+  enabled: true
+  excludes: /system/notice
+  urlPatterns: /system/*,/monitor/*,/tool/*

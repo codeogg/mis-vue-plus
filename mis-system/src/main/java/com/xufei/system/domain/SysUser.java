@@ -13,34 +13,17 @@ import java.util.Date;
 @TableName(value = "sys_user")
 public class SysUser extends BaseEntity {
 
-    private Long userId;
-    private Long deptId;
     private String userName;
+    private String password;
     private String nickName;
-    private String userType;
+    private String jobNumber;
+    private Long deptId;
     private String email;
-    private String phonenumber;
+    private String emailPassword;
     private String sex;
     private String avatar;
-    private String password;
-    private String status;
-
-    @TableLogic
-    private String delFlag;
-
     private String loginIp;
-    private Date loginDate;
-    private String remark;
-
-
-    @TableField(exist = false)
-    public SysDept dept;
-
-    @TableField(exist = false)
-    private Long[] roleIds;
-
-    @TableField(exist = false)
-    private Long[] postIds;
-
+    private Date lastLoginTime;
+    private Integer status;
 
 }
