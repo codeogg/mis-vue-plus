@@ -18,13 +18,12 @@
     <select id="selectMenusByUserId" resultType="com.xufei.system.domain.SysMenu">
         SELECT * FROM sys_menu WHERE id IN (
             SELECT rm.`menu_id` FROM sys_user_role ur INNER JOIN sys_role_menu rm ON ur.`role_id` = rm.`role_id`
-            WHERE ur.`site_id` = 1 AND rm.`site_id` = 1 AND ur.`user_id` = 2
+            WHERE ur.`site_id` = #{siteId} AND rm.`site_id` = #{siteId} AND ur.`user_id` = #{userId}
             UNION
-            SELECT `menu_id` FROM sys_user_menu WHERE `type` = 0 AND `user_id` = 2 AND `site_id` = 1
+            SELECT `menu_id` FROM sys_user_menu WHERE `type` = 0 AND `user_id` = #{userId} AND `site_id` = #{siteId}
         ) AND id NOT IN (
-            SELECT `menu_id` FROM sys_user_menu WHERE `type` = 1 AND `user_id` = 2 AND `site_id` = 1
+            SELECT `menu_id` FROM sys_user_menu WHERE `type` = 1 AND `user_id` = #{userId} AND `site_id` = #{siteId}
         )
-
     </select>
 
 </mapper>

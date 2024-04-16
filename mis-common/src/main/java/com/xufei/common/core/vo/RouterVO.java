@@ -9,6 +9,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouterVO {
 
+    private String name;
     private String path;
     private boolean hidden;
     private String redirect;
