@@ -5,7 +5,7 @@ import com.xufei.common.core.TreeEntity;
 import lombok.Data;
 
 @Data
-@TableName("sys_dept")
+@TableName(value = "sys_dept")
 public class SysDept extends TreeEntity<SysDept> {
 
     private String ancestors;

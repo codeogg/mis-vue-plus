@@ -1,12 +1,18 @@
 package com.xufei.common.helper;
 
 import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.context.model.SaStorage;
 import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.xufei.common.constants.CommonConstants;
 import com.xufei.common.core.LoginUser;
+import com.xufei.common.enums.DeviceType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.Arrays;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginHelper {
@@ -31,5 +37,24 @@ public class LoginHelper {
 
         SaHolder.getStorage().set(LOGIN_USER_KEY, loginUser);
         return loginUser;
+    }
+
+    public static void loginByDevice(LoginUser loginUser, DeviceType deviceType) {
+        SaStorage storage = SaHolder.getStorage();
+
+        storage.set(LOGIN_USER_KEY, loginUser);
+        storage.set(USER_KEY, loginUser.getUserId());
+
+        SaLoginModel model = new SaLoginModel();
+        if (ObjectUtil.isNotNull(deviceType)) {
+            model.setDevice(deviceType.getDevice());
+        }
+
+        StpUtil.login(loginUser.getUserId(), model);
+        StpUtil.getTokenSession().set(LOGIN_USER_KEY, loginUser);
+    }
+
+    public static boolean isAdmin(String userName) {
+        return Arrays.asList(CommonConstants.ADMIN_LIST).contains(userName);
     }
 }

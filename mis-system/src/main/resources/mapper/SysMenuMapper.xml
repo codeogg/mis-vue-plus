@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xufei.system.mapper.SysMenuMapper">
+
+    <select id="selectMenuPermsByUserId" resultType="java.lang.String">
+        SELECT DISTINCT m.`perms` FROM
+            sys_menu m LEFT JOIN sys_role_menu rm ON m.`id` = rm.`menu_id`
+                       LEFT JOIN sys_user_role ur ON rm.`role_id` = ur.`role_id`
+                       LEFT JOIN sys_user_menu um ON ur.`user_id` = um.`menu_id`
+        WHERE m.`site_id` = #{siteId}
+          AND rm.`site_id` = #{siteId}
+          AND ur.`site_id` = #{siteId}
+          AND um.`site_id` = #{siteId}
+          AND um.`type` = 0
+          AND ur.`user_id` = #{userId}
+    </select>
+
+    <select id="selectMenusByUserId" resultType="com.xufei.system.domain.SysMenu">
+        SELECT * FROM sys_menu WHERE id IN (
+            SELECT rm.`menu_id` FROM sys_user_role ur INNER JOIN sys_role_menu rm ON ur.`role_id` = rm.`role_id`
+            WHERE ur.`site_id` = 1 AND rm.`site_id` = 1 AND ur.`user_id` = 2
+            UNION
+            SELECT `menu_id` FROM sys_user_menu WHERE `type` = 0 AND `user_id` = 2 AND `site_id` = 1
+        ) AND id NOT IN (
+            SELECT `menu_id` FROM sys_user_menu WHERE `type` = 1 AND `user_id` = 2 AND `site_id` = 1
+        )
+
+    </select>
+
+</mapper>

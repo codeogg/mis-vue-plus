@@ -19,5 +19,6 @@ public class SysMenu extends TreeEntity<SysMenu> {
     private Integer status;
     private Integer visible;
     private Integer keepAlive;
+    private Long siteId;
 
 }
