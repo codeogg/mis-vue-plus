@@ -23,7 +23,7 @@
             SELECT `menu_id` FROM sys_user_menu WHERE `type` = 0 AND `user_id` = #{userId} AND `site_id` = #{siteId}
         ) AND id NOT IN (
             SELECT `menu_id` FROM sys_user_menu WHERE `type` = 1 AND `user_id` = #{userId} AND `site_id` = #{siteId}
-        )
+        ) and menu_type in (1,2)
     </select>
 
 </mapper>

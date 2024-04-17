@@ -21,9 +21,9 @@ public class SysSiteServiceImpl implements ISysSiteService {
     private final SysSiteMapper baseMapper;
 
     @Override
-    public Map<String, Object> getAllSites() {
+    public List<SysSite> getAllSites() {
         List<SysSite> sites = this.baseMapper.selectList(null);
-        return sites.stream().collect(Collectors.toMap(SysSite::getSiteName, SysSite::getId));
+        return sites;
     }
 
 }

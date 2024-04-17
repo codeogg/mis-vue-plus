@@ -10,4 +10,7 @@ public interface CommonConstants {
 
     String[] ADMIN_LIST = {"xufei"};
 
+    String LAYOUT = "Layout";
+
+    String PARENT_VIEW = "ParentView";
 }

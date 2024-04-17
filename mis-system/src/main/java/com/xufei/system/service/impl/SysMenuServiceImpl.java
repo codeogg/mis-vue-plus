@@ -55,6 +55,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         if (LoginHelper.isAdmin(userName)) {
             // 查询这个网站的所有菜单
             menus = baseMapper.selectList(new LambdaQueryWrapper<SysMenu>()
+                    .in(SysMenu::getMenuType, 1, 2)
                     .eq(SysMenu::getSiteId, loginUser.getSiteId()));
         } else {
             menus = baseMapper.selectMenusByUserId(loginUser.getUserId(), loginUser.getSiteId());
@@ -65,13 +66,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return routes;
     }
 
-    private List<RouterVO> buildRoutes(List<SysMenu> menus) {
+    public List<RouterVO> buildRoutes(List<SysMenu> menus) {
         List<RouterVO> routes = new LinkedList<>();
         for (SysMenu menu : menus) {
             RouterVO router = new RouterVO();
             router.setHidden(ObjectUtil.equal(0, menu.getVisible()));
             router.setName(StringUtil.capitalize(menu.getPath()));
-            router.setPath(menu.getPath());
+            router.setPath(getRouterPath(menu));
             router.setComponent(menu.getComponent());
             router.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon(), ObjectUtil.equal(0, menu.getKeepAlive())));
 
@@ -90,21 +91,36 @@ public class SysMenuServiceImpl implements ISysMenuService {
                     routes.add(hiddenRouter);
                 }
             } else {
-                if (!CollUtil.isEmpty(children)) {
-                    if (children.size() > 0) {
-                        router.setAlwaysShow(true);
-                    }
+                if (CollUtil.isNotEmpty(children)) {
+                    router.setAlwaysShow(true);
                     router.setChildren(buildRoutes(children));
                 }
             }
 
             routes.add(router);
-
         }
         return routes;
     }
 
-    private List<SysMenu> buildTree(List<SysMenu> list, Long parentId) {
+    private String getComponent(SysMenu menu) {
+        String component = menu.getComponent();
+        if (StringUtil.isEmpty(menu.getComponent()) && !ObjectUtil.equal(0, menu.getParentId()) && ObjectUtil.equal(1, menu.getMenuType())) {
+            component = CommonConstants.PARENT_VIEW;
+        } else if (StringUtil.isEmpty(menu.getComponent()) && ObjectUtil.equal(0, menu.getParentId())) {
+            component = CommonConstants.LAYOUT;
+        }
+        return component;
+    }
+
+    public String getRouterPath(SysMenu menu) {
+        String routerPath = menu.getPath();
+        if (ObjectUtil.equal(0, menu.getParentId()) && ObjectUtil.equal(1, menu.getMenuType())) {
+            routerPath = "/" + menu.getPath();
+        }
+        return routerPath;
+    }
+
+    public List<SysMenu> buildTree(List<SysMenu> list, Long parentId) {
         return list.stream()
                 .filter(menu -> ObjectUtil.equal(menu.getParentId(), parentId))
                 .map(menu -> {
