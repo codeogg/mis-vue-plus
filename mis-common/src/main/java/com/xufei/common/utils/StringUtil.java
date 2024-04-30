@@ -1,6 +1,7 @@
 package com.xufei.common.utils;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
 
@@ -26,5 +27,9 @@ public class StringUtil extends StringUtils {
     public static boolean isMatch(String pattern, String url) {
         AntPathMatcher matcher = new AntPathMatcher();
         return matcher.match(pattern, url);
+    }
+
+    public static String toUnderlineCase(String str){
+        return StrUtil.toUnderlineCase(str);
     }
 }

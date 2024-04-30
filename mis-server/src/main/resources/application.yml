@@ -79,3 +79,8 @@ xss:
   enabled: true
   excludes: /system/notice
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+minio:
+  endpoint: http://172.20.50.89:9000
+  accessKey: minioadmin
+  secretKey: 6YODLnzArjd73Gvl

@@ -55,11 +55,14 @@ public class SysMenuServiceImpl implements ISysMenuService {
         if (LoginHelper.isAdmin(userName)) {
             // 查询这个网站的所有菜单
             menus = baseMapper.selectList(new LambdaQueryWrapper<SysMenu>()
-                    .in(SysMenu::getMenuType, 1, 2)
-                    .eq(SysMenu::getSiteId, loginUser.getSiteId()));
+//                    .in(SysMenu::getMenuType, 1, 2)
+                    .eq(SysMenu::getSiteId, loginUser.getSiteId())
+                    .orderByAsc(SysMenu::getSortNum));
         } else {
             menus = baseMapper.selectMenusByUserId(loginUser.getUserId(), loginUser.getSiteId());
         }
+
+        LoginHelper.refreshLoginUser(loginUser);
 
         List<SysMenu> menuTree = buildTree(menus, 0L);
         List<RouterVO> routes = buildRoutes(menuTree);
@@ -70,11 +73,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
         List<RouterVO> routes = new LinkedList<>();
         for (SysMenu menu : menus) {
             RouterVO router = new RouterVO();
-            router.setHidden(ObjectUtil.equal(0, menu.getVisible()));
-            router.setName(StringUtil.capitalize(menu.getPath()));
+            router.setHidden(false);
+            router.setAlwaysShow(false);
+//            router.setName(StringUtil.capitalize(menu.getPath()));
             router.setPath(getRouterPath(menu));
             router.setComponent(menu.getComponent());
-            router.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon(), ObjectUtil.equal(0, menu.getKeepAlive())));
+//            router.setRedirect("noRedirect");
+            router.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon(), menu.getKeepAlive().intValue() == 0));
 
             List<SysMenu> children = menu.getChildren();
             if (ObjectUtil.equal(2, menu.getMenuType())) {
@@ -87,7 +92,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
                     hiddenRouter.setAlwaysShow(false);
                     hiddenRouter.setPath(hiddenMenu.getPath());
                     hiddenRouter.setComponent(hiddenMenu.getComponent());
-                    hiddenRouter.setMeta(new MetaVO(hiddenMenu.getMenuName(), hiddenMenu.getIcon(), ObjectUtil.equal(0, menu.getKeepAlive())));
+                    hiddenRouter.setMeta(new MetaVO(hiddenMenu.getMenuName(), hiddenMenu.getIcon(), menu.getKeepAlive().intValue() == 0));
                     routes.add(hiddenRouter);
                 }
             } else {
@@ -102,22 +107,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return routes;
     }
 
-    private String getComponent(SysMenu menu) {
-        String component = menu.getComponent();
-        if (StringUtil.isEmpty(menu.getComponent()) && !ObjectUtil.equal(0, menu.getParentId()) && ObjectUtil.equal(1, menu.getMenuType())) {
-            component = CommonConstants.PARENT_VIEW;
-        } else if (StringUtil.isEmpty(menu.getComponent()) && ObjectUtil.equal(0, menu.getParentId())) {
-            component = CommonConstants.LAYOUT;
-        }
-        return component;
-    }
-
     public String getRouterPath(SysMenu menu) {
-        String routerPath = menu.getPath();
-        if (ObjectUtil.equal(0, menu.getParentId()) && ObjectUtil.equal(1, menu.getMenuType())) {
-            routerPath = "/" + menu.getPath();
-        }
-        return routerPath;
+        return (menu.getParentId().longValue() == 0L ? "/" : "") + menu.getPath();
     }
 
     public List<SysMenu> buildTree(List<SysMenu> list, Long parentId) {

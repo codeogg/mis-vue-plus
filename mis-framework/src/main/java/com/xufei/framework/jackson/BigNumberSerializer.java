@@ -20,7 +20,7 @@ public class BigNumberSerializer extends NumberSerializer {
 
     @Override
     public void serialize(Number value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        if (value.longValue() > MAX_SAFE_INTEGER && value.longValue() < MIN_SAFE_INTEGER) {
+        if (value.longValue() > MIN_SAFE_INTEGER && value.longValue() < MAX_SAFE_INTEGER) {
             super.serialize(value, gen, provider);
         } else {
             gen.writeString(value.toString());

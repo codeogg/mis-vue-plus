@@ -4,7 +4,9 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpStatus;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.xufei.common.core.BaseEntity;
+import com.xufei.common.core.LoginUser;
 import com.xufei.common.exception.ServiceException;
+import com.xufei.common.helper.LoginHelper;
 import com.xufei.common.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -47,8 +49,8 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     }
 
     private String getLoginUsername() {
-
-        return "";
+        LoginUser loginUser = LoginHelper.getLoginUser();
+        return loginUser.getNickName();
     }
 
 

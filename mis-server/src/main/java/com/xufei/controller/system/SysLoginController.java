@@ -36,6 +36,8 @@ public class SysLoginController {
 
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getSiteId());
         ajax.put(CommonConstants.TOKEN, token);
+        ajax.put(CommonConstants.SITE_ID, loginBody.getSiteId());
+
         return R.ok(ajax);
     }
 
@@ -47,7 +49,7 @@ public class SysLoginController {
     }
 
     @GetMapping("/getInfo")
-    public R<Map<String,Object>> getInfo(){
+    public R<Map<String,Object>> getInfo(Long siteId){
         LoginUser loginUser = LoginHelper.getLoginUser();
         Long userId = loginUser.getUserId();
 
@@ -55,6 +57,8 @@ public class SysLoginController {
         user.setId(userId);
         user.setNickName(loginUser.getNickName());
         user.setAvatar(loginUser.getAvatar());
+
+        loginUser.setSiteId(siteId);
 
         List<RouterVO> menus = menuService.selectMenuTreeByUserId(loginUser);
 

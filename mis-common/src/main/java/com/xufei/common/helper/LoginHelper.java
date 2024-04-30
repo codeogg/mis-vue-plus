@@ -57,4 +57,13 @@ public class LoginHelper {
     public static boolean isAdmin(String userName) {
         return Arrays.asList(CommonConstants.ADMIN_LIST).contains(userName);
     }
+
+    public static void refreshLoginUser(LoginUser loginUser) {
+        SaHolder.getStorage().set(LOGIN_USER_KEY, loginUser);
+
+        SaSession session = StpUtil.getTokenSession();
+        if (ObjectUtil.isNotNull(session)) {
+            session.set(LOGIN_USER_KEY,loginUser);
+        }
+    }
 }

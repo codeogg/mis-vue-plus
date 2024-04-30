@@ -1,41 +1,26 @@
 package com.xufei.system.test;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xufei.common.core.vo.RouterVO;
-import com.xufei.system.domain.SysMenu;
-import com.xufei.system.domain.SysUser;
-import com.xufei.system.mapper.SysMenuMapper;
-import com.xufei.system.mapper.SysUserMapper;
-import com.xufei.system.service.ISysMenuService;
-import com.xufei.system.service.ISysSiteService;
-import com.xufei.system.service.impl.SysMenuServiceImpl;
+import com.xufei.framework.minio.MinioClientFactory;
+import com.xufei.framework.minio.MinioUtil;
+import io.minio.BucketExistsArgs;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-import java.util.Map;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 @SpringBootTest
 public class ServiceTest {
 
-    @Autowired
-    private SysMenuMapper  menuMapper;
-    @Autowired
-    SysMenuServiceImpl menuService;
 
     @Test
-    void test01() {
-        List<SysMenu> menus = menus = menuMapper.selectList(new LambdaQueryWrapper<SysMenu>()
-                .in(SysMenu::getMenuType, 1, 2)
-                .eq(SysMenu::getSiteId, 1));
+    void test01() throws FileNotFoundException {
+//        MinioUtil.download("test","excel-template/userImportTemplate.xlsx",
+//                new FileOutputStream("C:\\Users\\Administrator\\Desktop\\fsdownload\\aaa.xlsx"));
 
-        List<SysMenu> menuTree = menuService.buildTree(menus, 0L);
-        List<RouterVO> routes = menuService.buildRoutes(menuTree);
-
-        for (RouterVO route : routes) {
-            System.out.println(route);
-        }
-
+        String a = "excel-template/userImportTemplate.xlsx";
+        System.out.println("a.substring(a.lastIndexOf(\"/\")) = " + a.substring(a.lastIndexOf("/")));
     }
 }
