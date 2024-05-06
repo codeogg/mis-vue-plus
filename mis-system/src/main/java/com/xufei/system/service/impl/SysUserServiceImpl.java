@@ -1,5 +1,6 @@
 package com.xufei.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
@@ -19,17 +20,21 @@ import com.xufei.system.domain.SysUser;
 import com.xufei.system.domain.vo.SysUserExportVo;
 import com.xufei.system.listener.SysUserImportListener;
 import com.xufei.system.mapper.SysUserMapper;
+import com.xufei.system.mapper.SysUserMenuMapper;
+import com.xufei.system.mapper.SysUserRoleMapper;
 import com.xufei.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +44,8 @@ import java.util.Map;
 public class SysUserServiceImpl implements ISysUserService {
 
     private final SysUserMapper baseMapper;
+    private final SysUserMenuMapper userMenuMapper;
+    private final SysUserRoleMapper userRoleMapper;
 
     @Override
     public TableData<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery) {
@@ -77,9 +84,12 @@ public class SysUserServiceImpl implements ISysUserService {
         baseMapper.updateById(user);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         baseMapper.deleteById(id);
+        userMenuMapper.deleteByUserId(id);
+        userRoleMapper.deleteByUserId(id);
     }
 
     @Override
@@ -113,7 +123,7 @@ public class SysUserServiceImpl implements ISysUserService {
         List<SysUser> userList = baseMapper.selectList(queryWrapper);
 
         try {
-            String fileName = URLEncoder.encode( "用户导出数据.xlsx", "UTF-8").replaceAll("\\+", "%20");
+            String fileName = URLEncoder.encode("用户导出数据.xlsx", "UTF-8").replaceAll("\\+", "%20");
             response.setCharacterEncoding("UTF-8");
             response.addHeader("Content-Disposition", "attachment;filename*=" + fileName);
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE + "; charset=UTF-8");
@@ -151,9 +161,12 @@ public class SysUserServiceImpl implements ISysUserService {
         wrapper.like(StringUtil.isNotBlank(user.getUserName()), "user_name", user.getUserName())
                 .like(StringUtil.isNotBlank(user.getNickName()), "nick_name", user.getNickName())
                 .like(StringUtil.isNotBlank(user.getJobNumber()), "job_number", user.getJobNumber())
-                .eq(StringUtil.isNotBlank(user.getSex()), "sex", user.getSex())
-                .between(params.get("beginTime") != null && params.get("endTime") != null,
-                        "create_time", params.get("beginTime"), params.get("endTime"));
+                .eq(StringUtil.isNotBlank(user.getSex()), "sex", user.getSex());
+
+        if (params.containsKey("createTime") && params.get("createTime") instanceof List) {
+            ArrayList list = (ArrayList) params.get("createTime");
+            wrapper.between(CollectionUtil.isNotEmpty(list),"create_time", list.get(0), list.get(1));
+        }
 
         return wrapper;
     }

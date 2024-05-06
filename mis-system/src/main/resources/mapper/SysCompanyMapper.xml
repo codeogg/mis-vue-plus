@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xufei.system.mapper.SysCompanyMapper">
+
+    <select id="selectCompanyPage" resultType="com.xufei.system.domain.SysCompany">
+        select c.id,IFNULL(c.dept_id,d.id) dept_id,IFNULL(c.full_name,d.dept_name) full_name,
+               c.tin,c.address,c.telephone,c.opening_bank,c.bank_account,c.location,c.short_name,
+               c.create_by,c.create_time,c.update_by,c.update_time,d.`status`
+        from sys_dept d
+                 left join sys_company c on d.id = c.dept_id
+        ${ew.getCustomSqlSegment}
+    </select>
+</mapper>
