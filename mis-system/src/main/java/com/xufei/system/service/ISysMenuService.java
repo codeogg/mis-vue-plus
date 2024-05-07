@@ -12,4 +12,6 @@ public interface ISysMenuService {
     Set<String> selectMenuPermsByUserId(Long id,Long siteId);
 
     List<RouterVO> selectMenuTreeByUserId(LoginUser loginUser);
+
+    List<SysMenu> getListBySiteId(Long siteId);
 }

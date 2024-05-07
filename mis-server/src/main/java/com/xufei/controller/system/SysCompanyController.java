@@ -5,10 +5,7 @@ import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysCompany;
-import com.xufei.system.domain.SysRole;
-import com.xufei.system.domain.SysSite;
 import com.xufei.system.service.ISysCompanyService;
-import com.xufei.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +23,15 @@ public class SysCompanyController {
         return R.ok(tableData);
     }
 
-    @GetMapping("/{id}")
-    public R<SysCompany> getById(@PathVariable("id") Long id) {
-        SysCompany company = companyService.getById(id);
+    @PostMapping("/save")
+    public R save(@RequestBody SysCompany company) {
+        companyService.save(company);
+        return R.ok();
+    }
+
+    @GetMapping("/{deptId}")
+    public R<SysCompany> getById(@PathVariable("deptId") Long deptId) {
+        SysCompany company = companyService.getByDeptId(deptId);
         return R.ok(company);
     }
 

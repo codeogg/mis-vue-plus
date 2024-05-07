@@ -32,14 +32,14 @@ public class SysRoleController {
     }
 
     @PostMapping("/save")
-    public R save(@RequestBody SysRole user) {
-        roleService.save(user);
+    public R save(@RequestBody SysRole role) {
+        roleService.save(role);
         return R.ok();
     }
 
     @PutMapping("/update")
-    public R update(@RequestBody SysRole user) {
-        roleService.update(user);
+    public R update(@RequestBody SysRole role) {
+        roleService.update(role);
         return R.ok();
     }
 

@@ -9,6 +9,7 @@ import lombok.Data;
 public class SysDept extends TreeEntity<SysDept> {
 
     private String ancestors;
+    private Integer type;
     private String deptName;
     private Integer sortNum;
     private String status;

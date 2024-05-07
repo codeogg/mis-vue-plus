@@ -8,7 +8,9 @@ public interface ISysCompanyService {
 
     TableData<SysCompany> selectPageCompanyList(SysCompany company, PageQuery<SysCompany> pageQuery);
 
-    SysCompany getById(Long id);
-
     void update(SysCompany company);
+
+    void save(SysCompany company);
+
+    SysCompany getByDeptId(Long deptId);
 }

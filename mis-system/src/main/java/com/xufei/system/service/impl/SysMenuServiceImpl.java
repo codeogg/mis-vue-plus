@@ -69,6 +69,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return routes;
     }
 
+    @Override
+    public List<SysMenu> getListBySiteId(Long siteId) {
+        return baseMapper.selectList(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getSiteId, siteId));
+    }
+
     public List<RouterVO> buildRoutes(List<SysMenu> menus) {
         List<RouterVO> routes = new LinkedList<>();
         for (SysMenu menu : menus) {

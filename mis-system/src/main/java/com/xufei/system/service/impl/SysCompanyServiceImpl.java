@@ -11,13 +11,16 @@ import com.xufei.common.core.TableData;
 import com.xufei.common.exception.ServiceException;
 import com.xufei.common.utils.StringUtil;
 import com.xufei.system.domain.SysCompany;
+import com.xufei.system.domain.SysDept;
 import com.xufei.system.domain.SysRole;
 import com.xufei.system.mapper.SysCompanyMapper;
 import com.xufei.system.mapper.SysDeptMapper;
 import com.xufei.system.service.ISysCompanyService;
+import com.xufei.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.Query;
 
@@ -27,6 +30,7 @@ import javax.management.Query;
 public class SysCompanyServiceImpl implements ISysCompanyService {
 
     private final SysCompanyMapper baseMapper;
+    private final ISysDeptService deptService;
 
     @Override
     public TableData<SysCompany> selectPageCompanyList(SysCompany company, PageQuery<SysCompany> pageQuery) {
@@ -34,9 +38,40 @@ public class SysCompanyServiceImpl implements ISysCompanyService {
         return TableData.build(page);
     }
 
+    @Transactional
     @Override
-    public SysCompany getById(Long id) {
-        return baseMapper.selectById(id);
+    public void save(SysCompany company) {
+        if (isFullNameExist(company)) {
+            throw new ServiceException("公司全称已存在");
+        }
+
+        if (isShortNameExist(company)) {
+            throw new ServiceException("公司简称已存在");
+        }
+
+        SysDept dept = new SysDept();
+        dept.setParentId(0L);
+        dept.setAncestors("0");
+        dept.setDeptName(company.getFullName());
+        dept.setStatus("0");
+        deptService.save(dept);
+
+        Long deptId = dept.getId();
+        company.setDeptId(deptId);
+
+        baseMapper.insert(company);
+    }
+
+    @Override
+    public SysCompany getByDeptId(Long deptId) {
+        SysCompany company = baseMapper.selectOne(new LambdaQueryWrapper<SysCompany>().eq(SysCompany::getDeptId, deptId));
+        if (company == null) {
+            SysDept dept = deptService.getById(deptId);
+            company = new SysCompany();
+            company.setDeptId(deptId);
+            company.setFullName(dept.getDeptName());
+        }
+        return company;
     }
 
     @Override
@@ -50,8 +85,13 @@ public class SysCompanyServiceImpl implements ISysCompanyService {
             throw new ServiceException("公司简称已存在");
         }
 
-        baseMapper.insert(company);
+        if(ObjectUtil.isNull(company.getId())){
+            baseMapper.insert(company);
+        }else{
+            baseMapper.updateById(company);
+        }
     }
+
 
     private boolean isFullNameExist(SysCompany company) {
         LambdaQueryWrapper<SysCompany> lqw = new LambdaQueryWrapper<SysCompany>()
