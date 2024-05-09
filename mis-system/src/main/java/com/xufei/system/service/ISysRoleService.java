@@ -3,7 +3,10 @@ package com.xufei.system.service;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysRole;
+import com.xufei.system.domain.dto.AssignRoleMenuDto;
+import com.xufei.system.domain.vo.RoleRepVo;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ISysRoleService {
@@ -19,4 +22,10 @@ public interface ISysRoleService {
     void update(SysRole user);
 
     void deleteById(Long id);
+
+    void assignMenu(AssignRoleMenuDto roleMenuDto);
+
+    List<RoleRepVo> getAll(Long userId);
+
+    List<Long> getAssignedRoleMenuIds(Long siteId, Long roleId);
 }

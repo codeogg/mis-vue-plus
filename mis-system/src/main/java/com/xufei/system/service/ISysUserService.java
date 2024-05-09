@@ -3,6 +3,8 @@ package com.xufei.system.service;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysUser;
+import com.xufei.system.domain.SysUserMenu;
+import com.xufei.system.domain.dto.AssignUserRoleDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,4 +29,8 @@ public interface ISysUserService {
     SysUser selectUserByUserName(String userName);
 
     void exportData(SysUser searchData, HttpServletResponse response);
+
+    void assignRole(AssignUserRoleDto dto);
+
+    List<SysUserMenu> getAssignedUserMenuIds(Long siteId, Long userId);
 }

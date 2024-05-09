@@ -5,6 +5,10 @@ import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysUser;
+import com.xufei.system.domain.SysUserMenu;
+import com.xufei.system.domain.dto.AssignUserRoleDto;
+import com.xufei.system.domain.vo.RoleMenuReqVo;
+import com.xufei.system.domain.vo.UserMenuReqVo;
 import com.xufei.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,4 +74,17 @@ public class SysUserController {
     public void exportData(@RequestBody SysUser searchData, HttpServletResponse response) {
         userService.exportData(searchData, response);
     }
+
+    @PostMapping("/assignRole")
+    public R assignRole (@RequestBody AssignUserRoleDto dto){
+        userService.assignRole(dto);
+        return R.ok();
+    }
+
+    @PostMapping("/assigned/menu")
+    public R<List<SysUserMenu>> getAssignedUserMenuIds(@RequestBody UserMenuReqVo userMenuReqVo){
+        List<SysUserMenu> userMenus =userService.getAssignedUserMenuIds(userMenuReqVo.getSiteId(), userMenuReqVo.getUserId());
+        return R.ok(userMenus);
+    }
+
 }

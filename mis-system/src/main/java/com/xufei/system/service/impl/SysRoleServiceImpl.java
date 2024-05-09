@@ -11,9 +11,13 @@ import com.xufei.common.core.TableData;
 import com.xufei.common.exception.ServiceException;
 import com.xufei.common.utils.StringUtil;
 import com.xufei.system.domain.SysRole;
+import com.xufei.system.domain.SysRoleMenu;
 import com.xufei.system.domain.SysUser;
 import com.xufei.system.domain.SysUserRole;
+import com.xufei.system.domain.dto.AssignRoleMenuDto;
+import com.xufei.system.domain.vo.RoleRepVo;
 import com.xufei.system.mapper.SysRoleMapper;
+import com.xufei.system.mapper.SysRoleMenuMapper;
 import com.xufei.system.mapper.SysUserRoleMapper;
 import com.xufei.system.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,6 +35,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     private final SysRoleMapper baseMapper;
     private final SysUserRoleMapper userRoleMapper;
+    private final SysRoleMenuMapper roleMenuMapper;
 
     @Override
     public Set<String> selectRolePermissionByUserId(Long userId, Long sitId) {
@@ -110,5 +116,49 @@ public class SysRoleServiceImpl implements ISysRoleService {
         }
         userRoleMapper.deleteByRoleId(id);
         baseMapper.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void assignMenu(AssignRoleMenuDto roleMenuDto) {
+        Long roleId = roleMenuDto.getRoleId();
+        List<Long> menuIds = roleMenuDto.getMenuIds();
+        Long siteId = roleMenuDto.getSiteId();
+
+        roleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>()
+                .eq(SysRoleMenu::getRoleId, roleId)
+                .eq(SysRoleMenu::getSiteId, siteId)
+        );
+
+        for (Long menuId : menuIds) {
+            SysRoleMenu roleMenu = new SysRoleMenu(roleId, menuId, siteId);
+            roleMenuMapper.insert(roleMenu);
+        }
+    }
+
+    @Override
+    public List<RoleRepVo> getAll(Long userId) {
+        List<SysRole> allRoles = baseMapper.selectList(null);
+
+        LambdaQueryWrapper<SysUserRole> lqw = new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId)
+                .select(SysUserRole::getRoleId);
+        List<Long> roleIds = userRoleMapper.selectObjs(lqw);
+
+        return allRoles.stream().map(role -> {
+            RoleRepVo item = new RoleRepVo();
+            item.setRoleId(role.getId());
+            item.setRoleName(role.getRoleName());
+            item.setAlreadyHave(roleIds.contains(role.getId()));
+            return item;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Long> getAssignedRoleMenuIds(Long siteId, Long roleId) {
+        LambdaQueryWrapper<SysRoleMenu> lqw = new LambdaQueryWrapper<SysRoleMenu>()
+                .eq(SysRoleMenu::getSiteId, siteId)
+                .eq(SysRoleMenu::getRoleId, roleId)
+                .select(SysRoleMenu::getMenuId);
+        return roleMenuMapper.selectObjs(lqw);
     }
 }

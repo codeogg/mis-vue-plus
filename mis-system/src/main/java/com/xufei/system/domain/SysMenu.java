@@ -9,7 +9,7 @@ import lombok.Data;
 public class SysMenu extends TreeEntity<SysMenu> {
 
     private String menuName;
-    private Integer menuType;
+    private String menuType;
     private String path;
     private String perms;
     private Integer sortNum;

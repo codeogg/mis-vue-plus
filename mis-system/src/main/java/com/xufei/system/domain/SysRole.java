@@ -15,5 +15,4 @@ public class SysRole extends BaseEntity {
     private String roleCode;
     private Integer dataScope;
     private String dataScopeDeptIds;
-    private Long siteId;
 }

@@ -17,6 +17,9 @@ import com.xufei.common.exception.ServiceException;
 import com.xufei.common.utils.ExcelUtil;
 import com.xufei.common.utils.StringUtil;
 import com.xufei.system.domain.SysUser;
+import com.xufei.system.domain.SysUserMenu;
+import com.xufei.system.domain.SysUserRole;
+import com.xufei.system.domain.dto.AssignUserRoleDto;
 import com.xufei.system.domain.vo.SysUserExportVo;
 import com.xufei.system.listener.SysUserImportListener;
 import com.xufei.system.mapper.SysUserMapper;
@@ -134,6 +137,28 @@ public class SysUserServiceImpl implements ISysUserService {
         }
     }
 
+    @Transactional
+    @Override
+    public void assignRole(AssignUserRoleDto dto) {
+        Long userId = dto.getUserId();
+        List<Long> roleIds = dto.getRoleIds();
+
+        userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
+
+        for (Long roleId : roleIds) {
+            SysUserRole userRole = new SysUserRole(userId, roleId);
+            userRoleMapper.insert(userRole);
+        }
+    }
+
+    @Override
+    public List<SysUserMenu> getAssignedUserMenuIds(Long siteId, Long userId) {
+        LambdaQueryWrapper<SysUserMenu> lqw = new LambdaQueryWrapper<SysUserMenu>()
+                .eq(SysUserMenu::getSiteId, siteId)
+                .eq(SysUserMenu::getUserId, userId);
+        return userMenuMapper.selectList(lqw);
+    }
+
     /**
      * 判断工号是否已存在
      *
@@ -165,7 +190,7 @@ public class SysUserServiceImpl implements ISysUserService {
 
         if (params.containsKey("createTime") && params.get("createTime") instanceof List) {
             ArrayList list = (ArrayList) params.get("createTime");
-            wrapper.between(CollectionUtil.isNotEmpty(list),"create_time", list.get(0), list.get(1));
+            wrapper.between(CollectionUtil.isNotEmpty(list), "create_time", list.get(0), list.get(1));
         }
 
         return wrapper;
