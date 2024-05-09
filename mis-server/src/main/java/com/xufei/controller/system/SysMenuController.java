@@ -3,8 +3,6 @@ package com.xufei.controller.system;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.R;
 import com.xufei.system.domain.SysMenu;
-import com.xufei.system.domain.SysMenu;
-import com.xufei.system.domain.vo.MenuReqVo;
 import com.xufei.system.domain.vo.TreeNode;
 import com.xufei.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;

@@ -38,8 +38,8 @@ public class SysRoleController {
 
     @GetMapping("/{id}")
     public R<SysRole> getById(@PathVariable("id") Long id) {
-        SysRole user = roleService.getById(id);
-        return R.ok(user);
+        SysRole role = roleService.getById(id);
+        return R.ok(role);
     }
 
     @PostMapping("/save")

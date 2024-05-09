@@ -1,10 +1,7 @@
 package com.xufei.controller.system;
 
 import cn.dev33.satoken.annotation.SaIgnore;
-import com.mysql.cj.xdevapi.Table;
-import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
-import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysDept;
 import com.xufei.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;

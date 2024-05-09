@@ -5,7 +5,6 @@ import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysSite;
-import com.xufei.system.domain.SysSite;
 import com.xufei.system.service.ISysSiteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

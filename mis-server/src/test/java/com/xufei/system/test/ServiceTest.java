@@ -21,7 +21,7 @@ public class ServiceTest {
     private SysDeptServiceImpl deptService;
 
     @Test
-    void test01() throws FileNotFoundException {
+    void test01() {
         List<Long> ids = deptService.getDeptIdsWithChildren(109L);
         ids.stream().forEach(System.out::println);
     }

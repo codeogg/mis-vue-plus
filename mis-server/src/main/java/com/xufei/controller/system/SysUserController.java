@@ -7,7 +7,6 @@ import com.xufei.common.core.TableData;
 import com.xufei.system.domain.SysUser;
 import com.xufei.system.domain.SysUserMenu;
 import com.xufei.system.domain.dto.AssignUserRoleDto;
-import com.xufei.system.domain.vo.RoleMenuReqVo;
 import com.xufei.system.domain.vo.UserMenuReqVo;
 import com.xufei.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
