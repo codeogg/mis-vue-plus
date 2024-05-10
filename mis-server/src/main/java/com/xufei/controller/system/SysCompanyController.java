@@ -1,6 +1,5 @@
 package com.xufei.controller.system;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
@@ -9,7 +8,6 @@ import com.xufei.system.service.ISysCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@SaIgnore
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/company")

@@ -1,6 +1,5 @@
 package com.xufei.controller.system;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
@@ -10,15 +9,12 @@ import com.xufei.system.domain.dto.AssignUserRoleDto;
 import com.xufei.system.domain.vo.UserMenuReqVo;
 import com.xufei.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@Slf4j
-@SaIgnore
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/user")

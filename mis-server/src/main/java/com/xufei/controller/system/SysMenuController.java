@@ -1,6 +1,5 @@
 package com.xufei.controller.system;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.R;
 import com.xufei.system.domain.SysMenu;
 import com.xufei.system.domain.vo.TreeNode;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@SaIgnore
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/menu")

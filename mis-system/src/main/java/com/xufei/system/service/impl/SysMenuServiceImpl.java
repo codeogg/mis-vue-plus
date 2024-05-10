@@ -204,8 +204,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
             List<SysMenu> children = menu.getChildren();
             if (ObjectUtil.equal("2", menu.getMenuType())) {
+//                List<SysMenu> hiddenMenuList = children.stream()
+//                        .filter(item -> StringUtil.isNotEmpty(item.getComponent())).collect(Collectors.toList());
+
                 List<SysMenu> hiddenMenuList = children.stream()
-                        .filter(item -> StringUtil.isNotEmpty(item.getComponent())).collect(Collectors.toList());
+                        .filter(item -> item.getVisible().intValue() == 0).collect(Collectors.toList());
 
                 for (SysMenu hiddenMenu : hiddenMenuList) {
                     RouterVO hiddenRouter = new RouterVO();

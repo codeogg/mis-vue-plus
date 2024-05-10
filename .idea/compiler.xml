@@ -10,7 +10,9 @@
         <module name="mis-framework" />
         <module name="mis-server" />
         <module name="mis-common" />
+        <module name="mis-hk" />
         <module name="mis-system" />
+        <module name="mis-mis" />
       </profile>
     </annotationProcessing>
   </component>

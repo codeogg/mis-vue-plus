@@ -1,5 +1,6 @@
 package com.xufei.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@SaIgnore
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/site")
@@ -19,12 +19,14 @@ public class SysSiteController {
 
     private final ISysSiteService siteService;
 
+    @SaIgnore
     @GetMapping("/all")
     public R<List<SysSite>> getAll() {
         List<SysSite> allSites = siteService.getAllSites();
         return R.ok(allSites);
     }
 
+    @SaCheckPermission("system:site:list")
     @PostMapping("/list")
     public R<TableData<SysSite>> list(@RequestBody PageQuery<SysSite> pageQuery) {
         TableData<SysSite> tableData = siteService.selectPageUserList(pageQuery.getSearchData(), pageQuery);

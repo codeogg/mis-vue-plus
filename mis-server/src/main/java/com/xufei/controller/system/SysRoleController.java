@@ -1,6 +1,5 @@
 package com.xufei.controller.system;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
@@ -10,13 +9,10 @@ import com.xufei.system.domain.vo.RoleMenuReqVo;
 import com.xufei.system.domain.vo.RoleRepVo;
 import com.xufei.system.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
-@SaIgnore
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/role")

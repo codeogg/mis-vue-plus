@@ -1,28 +1,22 @@
 package com.xufei.system.test;
 
-import com.xufei.framework.minio.MinioClientFactory;
-import com.xufei.framework.minio.MinioUtil;
-import com.xufei.system.service.ISysDeptService;
-import com.xufei.system.service.impl.SysDeptServiceImpl;
-import io.minio.BucketExistsArgs;
+import com.xufei.hk.entity.MarOrder;
+import com.xufei.hk.service.IMarOrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.List;
 
 @SpringBootTest
 public class ServiceTest {
 
     @Autowired
-    private SysDeptServiceImpl deptService;
+    private IMarOrderService orderService;
 
     @Test
     void test01() {
-        List<Long> ids = deptService.getDeptIdsWithChildren(109L);
-        ids.stream().forEach(System.out::println);
+        List<MarOrder> all = orderService.all();
+        System.out.println(all.size());
     }
 }

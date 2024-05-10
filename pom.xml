@@ -14,6 +14,8 @@
         <module>mis-framework</module>
         <module>mis-system</module>
         <module>mis-server</module>
+        <module>mis-hk</module>
+        <module>mis-mis</module>
     </modules>
 
     <properties>
@@ -127,6 +129,18 @@
             <dependency>
                 <groupId>com.xufei</groupId>
                 <artifactId>mis-system</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xufei</groupId>
+                <artifactId>mis-hk</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xufei</groupId>
+                <artifactId>mis-mis</artifactId>
                 <version>1.0</version>
             </dependency>
 

@@ -38,6 +38,16 @@
         </dependency>
 
         <dependency>
+            <groupId>com.xufei</groupId>
+            <artifactId>mis-hk</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.xufei</groupId>
+            <artifactId>mis-mis</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>

@@ -30,7 +30,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     private QueryWrapper<SysDictData> buildQueryWrapper(SysDictData dictData) {
         QueryWrapper<SysDictData> wrapper = Wrappers.query();
 
-        wrapper.like(StringUtil.isNotBlank(dictData.getDictType()), "dict_type", dictData.getDictType())
+        wrapper.eq(StringUtil.isNotBlank(dictData.getDictType()), "dict_type", dictData.getDictType())
                 .like(StringUtil.isNotBlank(dictData.getDictLabel()), "dict_label", dictData.getDictLabel())
                 .like(StringUtil.isNotBlank(dictData.getDictValue()), "dict_value", dictData.getDictValue());
 
