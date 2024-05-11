@@ -1,5 +1,6 @@
 package com.xufei.controller.system;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import com.xufei.common.core.PageQuery;
 import com.xufei.common.core.R;
 import com.xufei.common.core.TableData;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,6 +83,19 @@ public class SysUserController {
     public R<List<SysUserMenu>> getAssignedUserMenuIds(@RequestBody UserMenuReqVo userMenuReqVo){
         List<SysUserMenu> userMenus =userService.getAssignedUserMenuIds(userMenuReqVo.getSiteId(), userMenuReqVo.getUserId());
         return R.ok(userMenus);
+    }
+
+    @SaIgnore
+    @GetMapping("/todo")
+    public R<Map<String,Integer>> index(){
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("审核预付款",2);
+
+
+        map.put("HK审核采购单",3);
+
+        return R.ok(map);
     }
 
 }

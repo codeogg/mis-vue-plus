@@ -37,15 +37,14 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public Set<String> selectMenuPermsByUserId(Long userId, Long siteId) {
         // 已拥有的权限
         List<String> perms = baseMapper.selectMenuPermsByUserId(userId, siteId);
+        // 该用户额外加的权限
+        List<String> extraMenus = userMenuMapper.selectExtraMenuByUserId(userId, siteId);
         // 该用户禁止的权限
         List<String> disabledMenus = userMenuMapper.selectDisabledMenuByUserId(userId, siteId);
 
-        Set<String> permsSet = new HashSet<>();
-        for (String perm : perms) {
-            if (StringUtil.isNoneEmpty(perm)) {
-                permsSet.add(perm.trim());
-            }
-        }
+        perms.addAll(extraMenus);
+
+        Set<String> permsSet = perms.stream().filter(perm -> StringUtil.isNotEmpty(perm.trim())).collect(Collectors.toSet());
 
         return permsSet.stream().filter(perm -> !disabledMenus.contains(perm)).collect(Collectors.toSet());
     }

@@ -12,4 +12,10 @@
         FROM sys_menu m LEFT JOIN sys_user_menu um ON m.`id` = um.`menu_id`
         WHERE m.`site_id` = #{siteId} AND um.`site_id` = #{siteId} AND um.`user_id` = #{userId} AND um.`type` = 1
     </select>
+
+    <select id="selectExtraMenuByUserId" resultType="String">
+        SELECT distinct m.`perms`
+        FROM sys_menu m LEFT JOIN sys_user_menu um ON m.`id` = um.`menu_id`
+        WHERE m.`site_id` = #{siteId} AND um.`site_id` = #{siteId} AND um.`user_id` = #{userId} AND um.`type` = 0
+    </select>
 </mapper>

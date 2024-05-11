@@ -12,4 +12,6 @@ public interface SysUserMenuMapper extends BaseMapper<SysUserMenu> {
     List<String> selectDisabledMenuByUserId(@Param("userId") Long userId, @Param("siteId") Long siteId);
 
     void deleteByUserId(Long id);
+
+    List<String> selectExtraMenuByUserId(@Param("userId") Long userId, @Param("siteId") Long siteId);
 }

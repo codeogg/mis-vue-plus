@@ -1,6 +1,6 @@
 package com.xufei.mis.controller;
 
-import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.xufei.common.core.R;
 import com.xufei.mis.entity.MarOrderPacking;
 import com.xufei.mis.service.IMarOrderPackingService;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@SaIgnore
 @RestController
 @RequestMapping("/mis/business/order/packing")
 @RequiredArgsConstructor
@@ -19,6 +18,7 @@ public class MarOrderPackingController {
 
     private final IMarOrderPackingService orderPackingService;
 
+    @SaCheckPermission("mis:business-order:list")
     @GetMapping("/list")
     public R<List<MarOrderPacking>> list(){
         List<MarOrderPacking> list = orderPackingService.getAll();
